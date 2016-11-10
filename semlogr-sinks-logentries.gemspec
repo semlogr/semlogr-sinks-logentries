@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'semlogr', '~> 0.1.1'
-  spec.add_dependency 'logstash-logger', '~> 0.19.2'
+  spec.add_dependency 'logstash-logger', '~> 0.20.0'
 
   spec.add_development_dependency 'bundler', '~> 1.13'
   spec.add_development_dependency 'pry', '~> 0.10.3'
