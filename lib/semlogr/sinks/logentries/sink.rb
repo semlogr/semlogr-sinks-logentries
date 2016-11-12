@@ -40,11 +40,11 @@ module Semlogr
         def with_connection
           open_connection unless connected?
 
-          begin
-            yield(@connection)
-          rescue
-            close_connection
-          end
+          yield(@connection)
+        rescue
+          close_connection
+
+          raise
         end
 
         def open_connection
