@@ -28,6 +28,8 @@ module Semlogr
               output = @formatter.format(item)
               conn.write("#{@token} #{output}")
             end
+
+            conn.flush
           end
         end
 
