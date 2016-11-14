@@ -53,6 +53,8 @@ module Semlogr
           port = @options.fetch(:port, use_ssl ? 443 : 80)
           connection = TCPSocket.new(host, port)
 
+          configure_keepalive(connection)
+
           if use_ssl
             cert_store = OpenSSL::X509::Store.new
             cert_store.set_default_paths
@@ -78,6 +80,22 @@ module Semlogr
           end
         ensure
           @connection = nil
+        end
+
+        def configure_keepalive(connection)
+          return unless [
+            :SOL_SOCKET,
+            :SO_KEEPALIVE,
+            :SOL_TCP,
+            :TCP_KEEPIDLE,
+            :TCP_KEEPINTVL,
+            :TCP_KEEPCNT
+          ].all? { |c| Socket.const_defined? c }
+
+          connection.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, true)
+          connection.setsockopt(Socket::SOL_TCP, Socket::TCP_KEEPIDLE, 60)
+          connection.setsockopt(Socket::SOL_TCP, Socket::TCP_KEEPINTVL, 5)
+          connection.setsockopt(Socket::SOL_TCP, Socket::TCP_KEEPCNT, 5)
         end
       end
     end
