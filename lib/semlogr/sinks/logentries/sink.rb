@@ -1,8 +1,8 @@
 require 'stud/buffer'
 require 'socket'
 require 'openssl'
-require 'semlogr/sinks/logentries/version'
 require 'semlogr/formatters/json_formatter'
+require 'semlogr/sinks/logentries/tcp_connection'
 
 module Semlogr
   module Sinks
@@ -10,10 +10,11 @@ module Semlogr
       class Sink
         include Stud::Buffer
 
-        def initialize(token, **opts)
+        def initialize(token, opts = {})
           @token = token
           @options = opts
           @formatter = opts.fetch(:formatter, Formatters::JsonFormatter.new)
+          @connection = create_connection(opts)
 
           buffer_initialize(opts)
         end
@@ -23,79 +24,20 @@ module Semlogr
         end
 
         def flush(items, _group = nil)
-          with_connection do |conn|
-            items.each do |item|
-              output = @formatter.format(item)
-              conn.write("#{@token} #{output}")
-            end
+          items.each do |item|
+            output = @formatter.format(item)
+            @connection.write("#{@token} #{output}")
           end
         end
 
         private
 
-        def connected?
-          !@connection.nil?
-        end
+        def create_connection(opts)
+          host = opts.fetch(:host, 'data.logentries.com')
+          ssl = opts.fetch(:ssl, true)
+          port = opts.fetch(:port, ssl ? 443 : 80)
 
-        def with_connection
-          open_connection unless connected?
-
-          yield(@connection)
-        rescue
-          close_connection
-
-          raise
-        end
-
-        def open_connection
-          host = @options.fetch(:host, 'data.logentries.com')
-          use_ssl = @options.fetch(:use_ssl, true)
-          port = @options.fetch(:port, use_ssl ? 443 : 80)
-          connection = TCPSocket.new(host, port)
-
-          configure_keepalive(connection)
-
-          if use_ssl
-            cert_store = OpenSSL::X509::Store.new
-            cert_store.set_default_paths
-
-            ssl_context = OpenSSL::SSL::SSLContext.new
-            ssl_context.cert_store = cert_store
-            ssl_context.verify_mode = OpenSSL::SSL::VERIFY_PEER
-
-            connection = OpenSSL::SSL::SSLSocket.new(connection, ssl_context)
-            connection.hostname = host if connection.respond_to? :hostname=
-            connection.sync_close = true
-            connection.connect
-          end
-
-          @connection = connection
-        end
-
-        def close_connection
-          if @connection.respond_to?(:sysclose)
-            @connection.sysclose
-          elsif @connection.respond_to?(:close)
-            @connection.close
-          end
-        ensure
-          @connection = nil
-        end
-
-        def configure_keepalive(connection)
-          return unless [
-            :SOL_SOCKET,
-            :SO_KEEPALIVE,
-            :SOL_TCP,
-            :TCP_KEEPIDLE,
-            :TCP_KEEPINTVL,
-            :TCP_KEEPCNT
-          ].all? { |c| Socket.const_defined? c }
-
-          connection.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, true)
-          connection.setsockopt(Socket::SOL_TCP, Socket::TCP_KEEPIDLE, 60)
-          connection.setsockopt(Socket::SOL_TCP, Socket::TCP_KEEPINTVL, 5)
-          connection.setsockopt(Socket::SOL_TCP, Socket::TCP_KEEPCNT, 5)
+          TcpConnection.new(host, port, ssl)
         end
       end
     end
