@@ -62,6 +62,7 @@ module Semlogr
             ssl_context.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
             connection = OpenSSL::SSL::SSLSocket.new(connection, ssl_context)
+            connection.hostname = host if connection.respond_to? :hostname=
             connection.sync_close = true
             connection.connect
           end
