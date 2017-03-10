@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'semlogr', '~> 0.1.2'
+  spec.add_dependency 'semlogr', '~> 0.1.3'
   spec.add_dependency 'stud', '~> 0.0.10'
 
   spec.add_development_dependency 'bundler', '~> 1.13'
