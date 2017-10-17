@@ -40,12 +40,6 @@ Semlogr.info('Customer {customer_id} did something interesting', customer_id: 12
 
 After cloning the repository run `bundle install` to get up and running, to run the specs just run `rake spec`.
 
-## Changes
-
-### 0.1.0
-
-  - Initial commit.
-
 ## Contributing
 
 See anything broken or something you would like to improve? feel free to submit an issue or better yet a pull request!
