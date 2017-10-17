@@ -27,13 +27,13 @@ Create an instance of the logger configuring the logentries sink with your token
 require 'semlogr'
 require 'semlogr/sinks/logentries'
 
-logger = Semlogr::Logger.create do |c|
-  c.log_at(Semlogr::LogSeverity::INFO)
+Semlogr.logger = Semlogr.create_logger do |c|
+  c.log_at :info
 
-  c.write_to(Semlogr::Sinks::Logentries.new('TOKEN'))
+  c.write_to :logentries, 'TOKEN'
 end
 
-logger.info('Customer {customer_id} did something interesting', customer_id: 1234)
+Semlogr.info('Customer {customer_id} did something interesting', customer_id: 1234)
 ```
 
 ## Development
