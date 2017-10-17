@@ -62,14 +62,14 @@ module Semlogr
         private
 
         def configure_socket_keepalive(connection)
-          return unless [
-            :SOL_SOCKET,
-            :SO_KEEPALIVE,
-            :SOL_TCP,
-            :TCP_KEEPIDLE,
-            :TCP_KEEPINTVL,
-            :TCP_KEEPCNT
-          ].all? { |c| Socket.const_defined? c }
+          return unless %i[
+            SOL_SOCKET
+            SO_KEEPALIVE
+            SOL_TCP
+            TCP_KEEPIDLE
+            TCP_KEEPINTVL
+            TCP_KEEPCNT
+          ].all? { |c| Socket.const_defined?(c) }
 
           connection.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, true)
           connection.setsockopt(Socket::SOL_TCP, Socket::TCP_KEEPIDLE, 60)
