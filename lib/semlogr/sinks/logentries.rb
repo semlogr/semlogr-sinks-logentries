@@ -10,6 +10,6 @@ module Semlogr
       end
     end
 
-    ComponentRegistry.register(:sink, logentires: Logentries)
+    ComponentRegistry.register(:sink, logentries: Logentries)
   end
 end

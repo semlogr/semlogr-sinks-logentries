@@ -2,7 +2,7 @@
 
 ### 0.2.0
 
-- Use new component registry
+- Use new semlogr component registry
 
 ### 0.1.3
 
