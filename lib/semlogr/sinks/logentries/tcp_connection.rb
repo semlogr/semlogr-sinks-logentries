@@ -21,7 +21,7 @@ module Semlogr
           connect unless connected?
 
           @socket.write(data)
-        rescue
+        rescue StandardError
           close
 
           raise
