@@ -50,7 +50,11 @@ module Semlogr
         end
 
         def close
-          @socket.close
+          if @socket.respond_to?(:sysclose)
+            @socket.sysclose
+          elsif @socket.respond_to?(:close)
+            @socket.close
+          end
         ensure
           @socket = nil
         end
