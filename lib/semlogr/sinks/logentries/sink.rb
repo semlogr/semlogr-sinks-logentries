@@ -1,5 +1,6 @@
 require 'stud/buffer'
 require 'socket'
+require 'timeout'
 require 'openssl'
 require 'semlogr/formatters/json_formatter'
 require 'semlogr/sinks/logentries/tcp_connection'
@@ -11,6 +12,8 @@ module Semlogr
         include Stud::Buffer
 
         def initialize(token, formatter: nil, **opts)
+          opts = default_opts.merge(opts)
+
           @token = token
           @formatter = formatter || Formatters::JsonFormatter.new
           @connection = create_connection(opts)
@@ -44,7 +47,11 @@ module Semlogr
 
           at_exit do
             flush_timeout = opts[:flush_at_exit_timeout]
-            Timeout.timeout(flush_timeout) { buffer_flush(final: true) }
+            Timeout.timeout(flush_timeout) do
+              buffer_flush(final: true)
+
+              @connection.close
+            end
           end
         end
 
