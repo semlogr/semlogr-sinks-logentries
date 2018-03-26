@@ -1,6 +1,4 @@
-# coding: utf-8
-
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'semlogr/sinks/logentries/version'
 
@@ -23,8 +21,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'stud', '~> 0.0.10'
 
   spec.add_development_dependency 'bundler', '~> 1.13'
-  spec.add_development_dependency 'pry', '~> 0.10.3'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rubocop', '~> 0.49.1'
+  spec.add_development_dependency 'pry', '~> 0.11'
+  spec.add_development_dependency 'rake', '~> 12.3'
+  spec.add_development_dependency 'rspec', '~> 3.7'
+  spec.add_development_dependency 'rubocop', '~> 0.53'
 end
