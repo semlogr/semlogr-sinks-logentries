@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.2.2
+
+- Add automatic flushing of buffer when application exits
+
 ### 0.2.1
 
 - Use new semlogr component registry
