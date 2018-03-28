@@ -38,7 +38,7 @@ module Semlogr
         def default_opts
           {
             flush_at_exit: true,
-            flush_at_exit_timeout: 60
+            flush_at_exit_timeout: 10
           }
         end
 
