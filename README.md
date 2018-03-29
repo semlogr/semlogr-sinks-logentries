@@ -1,4 +1,4 @@
-![Codeship Status for semlogr/semlogr](https://codeship.com/projects/9677cdd0-8768-0134-57f3-36c2ccf79a16/status?branch=master)
+![Codeship Status for semlogr/semlogr-sinks-logentries](https://codeship.com/projects/9677cdd0-8768-0134-57f3-36c2ccf79a16/status?branch=master)
 
 # Logenties sink for Semlogr
 
