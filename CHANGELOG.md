@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.2.3
+
+- Move to using the batching sink provided in the Semlogr core
+
 ### 0.2.2
 
 - Add automatic flushing of buffer when application exits

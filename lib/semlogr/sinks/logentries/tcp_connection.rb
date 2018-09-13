@@ -1,4 +1,3 @@
-require 'stud/buffer'
 require 'socket'
 require 'openssl'
 require 'semlogr/sinks/logentries/version'
