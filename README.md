@@ -1,4 +1,6 @@
 ![Codeship Status for semlogr/semlogr-sinks-logentries](https://codeship.com/projects/9677cdd0-8768-0134-57f3-36c2ccf79a16/status?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/6209103d407f5483a216/maintainability)](https://codeclimate.com/github/semlogr/semlogr-sinks-logentries/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/6209103d407f5483a216/test_coverage)](https://codeclimate.com/github/semlogr/semlogr-sinks-logentries/test_coverage)
 
 # Logenties sink for Semlogr
 
